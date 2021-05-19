@@ -45,14 +45,14 @@ BOOL (*pMiniDumpWriteDump)(
 
 LONG  GameCrashHandler(_EXCEPTION_POINTERS* ExceptionInfo) {
 
-	HANDLE hDumpFile = CreateFile("C:\\Users\\sbb\\Desktop\\CSGO:Crash.dmp", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hDumpFile = CreateFile("C:\\Users\\sbb\\Desktop\\Crash.dmp", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
 	dumpInfo.ExceptionPointers = ExceptionInfo;
 	dumpInfo.ThreadId = GetCurrentThreadId();
 	dumpInfo.ClientPointers = TRUE;
 	if(pMiniDumpWriteDump){
-	pMiniDumpWriteDump(GetCurrentProcess(),
+	bool isSuccess = pMiniDumpWriteDump(GetCurrentProcess(),
 		GetCurrentProcessId(),
 		hDumpFile,
 		MiniDumpNormal,
@@ -60,6 +60,8 @@ LONG  GameCrashHandler(_EXCEPTION_POINTERS* ExceptionInfo) {
 		NULL,
 		NULL
 	);
+	if(!isSuccess)
+		Utilities::Log("MiniDumpWriteDump Faied!");
 		}
 
 
@@ -96,6 +98,8 @@ int InitialThread()
 	if(!hDbg)
 		Utilities::Log("dbghelpdll not found");
 	pMiniDumpWriteDump = (decltype(pMiniDumpWriteDump))GetProcAddress(hDbg,"MiniDumpWriteDump");
+	Utilities::Log("MiniDumpWriteDump Base %x", pMiniDumpWriteDump);
+
 	if(!pMiniDumpWriteDump)
 		Utilities::Log("pMiniDumpWriteDump func pointer get failed!");
 	SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)GameCrashHandler);
@@ -107,10 +111,10 @@ int InitialThread()
 	// Initialise all our shit
 	// 
 	Offsets::Initialise(); // Set our VMT offsets and do any pattern scans
-	//Interfaces::Initialise(); // Get pointers to the valve classes
+	Interfaces::Initialise(); // Get pointers to the valve classes
 	//NetVar.RetrieveClasses(); // Setup our NetVar manager (thanks shad0w bby)
 	//NetvarManager::Instance()->CreateDatabase();
-	//Render::Initialise();
+	Render::Initialise();
 	//Hacks::SetupHacks();
 	Menu::SetupMenu();
 	Utilities::Log("Menu::SetupMenu excute!");

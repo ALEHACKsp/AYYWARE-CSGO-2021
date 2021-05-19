@@ -16,8 +16,6 @@ void Offsets::Initialise()
 	//currently csgo not load client_panorama.dll
 	Modules::Client = Utilities::Memory::WaitOnModuleHandle("client.dll");
 
-
-
 	Modules::Engine = Utilities::Memory::WaitOnModuleHandle("engine.dll");
 	Modules::VGUI2 = Utilities::Memory::WaitOnModuleHandle("vgui2.dll");
 	Modules::VGUISurface = Utilities::Memory::WaitOnModuleHandle("vguimatsurface.dll");
@@ -94,7 +92,7 @@ void Offsets::Initialise()
 
 #pragma endregion Contains the VTable Indexs
 
-	Functions::KeyValues_KeyValues = Utilities::Memory::FindPatternV2("client_panorama.dll", "55 8B EC 51 33 C0 C7 45");
+	/*Functions::KeyValues_KeyValues = Utilities::Memory::FindPatternV2("client_panorama.dll", "55 8B EC 51 33 C0 C7 45");
 
 	Functions::KeyValues_LoadFromBuffer = Utilities::Memory::FindPatternV2("client_panorama.dll", "55 8B EC 83 E4 F8 83 EC 34 53 8B 5D 0C 89 4C 24 04");
 
@@ -102,7 +100,27 @@ void Offsets::Initialise()
 
 	Functions::dwGetPlayerCompRank = GameUtils::FindPattern1(strenc("client_panorama.dll"), strenc("55 8B EC 8B 0D ? ? ? ? 68 ? ? ? ? "));
 
-	Functions::dwIsReady = GameUtils::FindPattern1(strenc("client_panorama.dll"), strenc("55 8B EC 83 E4 F8 83 EC 08 56 8B 35 ? ? ? ? 57 8B BE"));
+	Functions::dwIsReady = GameUtils::FindPattern1(strenc("client_panorama.dll"), strenc("55 8B EC 83 E4 F8 83 EC 08 56 8B 35 ? ? ? ? 57 8B BE"));*/
+
+
+	//not work yet
+	Functions::KeyValues_KeyValues = Utilities::Memory::FindPatternV2("client.dll", "55 8B EC 51 33 C0 C7 45");
+
+	Functions::KeyValues_LoadFromBuffer = Utilities::Memory::FindPatternV2("client.dll", "55 8B EC 83 E4 F8 83 EC 34 53 8B 5D 0C 89 4C 24 04");
+
+	Functions::dwCalcPlayerView = Utilities::Memory::FindPattern("client.dll", (PBYTE)"\x84\xC0\x75\x08\x57\x8B\xCE\xE8\x00\x00\x00\x00\x8B\x06", "xxxxxxxx????xx");
+
+	Functions::dwGetPlayerCompRank = GameUtils::FindPattern1(strenc("client.dll"), strenc("55 8B EC 8B 0D ? ? ? ? 68 ? ? ? ? "));
+
+
+	Functions::dwIsReady = GameUtils::FindPattern1(strenc("client.dll"), strenc("55 8B EC 83 E4 F8 83 EC 08 56 8B 35 ? ? ? ? 57 8B BE"));
+
+
+	Utilities::Log("Functions::KeyValues_KeyValues Base %x", Functions::KeyValues_KeyValues);
+	Utilities::Log("Functions::KeyValues_LoadFromBuffer %x", Functions::KeyValues_LoadFromBuffer);
+	Utilities::Log("Functions::dwCalcPlayerView %x", Functions::dwCalcPlayerView);
+	Utilities::Log("Functions::dwGetPlayerCompRank %x", Functions::dwGetPlayerCompRank);
+	Utilities::Log("Functions::dwIsReady %x", Functions::dwIsReady);
 
 	Utilities::Log("Offsets/Indexes Up to Date");
 }

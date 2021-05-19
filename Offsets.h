@@ -96,9 +96,13 @@ namespace Offsets
 	// Addresses of engine functions to call
 	namespace Functions
 	{
+		//public\tier1\KeyValues.h
 		extern DWORD KeyValues_KeyValues;
 		extern DWORD KeyValues_LoadFromBuffer;
+
+		//Class C_BasePlayer   
 		extern DWORD dwCalcPlayerView;
+
 		extern DWORD dwGetPlayerCompRank;
 		extern DWORD dwIsReady;
 	};

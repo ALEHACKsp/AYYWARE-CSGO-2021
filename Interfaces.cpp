@@ -34,20 +34,37 @@ void Interfaces::Initialise()
 
 	//Get the interface names regardless of their version number by scanning for each string
 	//#define CLIENT_DLL_INTERFACE_VERSION		"VClient017" 
-	char* CHLClientInterfaceName = (char*)Utilities::Memory::FindTextPattern("client_panorama.dll", "VClient0");
+	char* CHLClientInterfaceName = (char*)Utilities::Memory::FindTextPattern("client.dll", "VClient0");
 	char* VGUI2PanelsInterfaceName = (char*)Utilities::Memory::FindTextPattern("vgui2.dll", "VGUI_Panel0");
 	char* VGUISurfaceInterfaceName = (char*)Utilities::Memory::FindTextPattern("vguimatsurface.dll", "VGUI_Surface0");
-	char* EntityListInterfaceName = (char*)Utilities::Memory::FindTextPattern("client_panorama.dll", "VClientEntityList0");
+	char* EntityListInterfaceName = (char*)Utilities::Memory::FindTextPattern("client.dll", "VClientEntityList0");
 	char* EngineDebugThingInterface = (char*)Utilities::Memory::FindTextPattern("engine.dll", "VDebugOverlay0");
 	char* EngineClientInterfaceName = (char*)Utilities::Memory::FindTextPattern("engine.dll","VEngineClient0");
-	char* ClientPredictionInterface = (char*)Utilities::Memory::FindTextPattern("client_panorama.dll", "VClientPrediction0");
+	char* ClientPredictionInterface = (char*)Utilities::Memory::FindTextPattern("client.dll", "VClientPrediction0");
 	char* MatSystemInterfaceName = (char*)Utilities::Memory::FindTextPattern("materialsystem.dll", "VMaterialSystem0");
 	char* EngineRenderViewInterface = (char*)Utilities::Memory::FindTextPattern("engine.dll", "VEngineRenderView0");
 	char* EngineModelRenderInterface = (char*)Utilities::Memory::FindTextPattern("engine.dll", "VEngineModel0");
 	char* EngineModelInfoInterface = (char*)Utilities::Memory::FindTextPattern("engine.dll", "VModelInfoClient0");
 	char* EngineTraceInterfaceName = (char*)Utilities::Memory::FindTextPattern("engine.dll", "EngineTraceClient0");
-	char* PhysPropsInterfaces = (char*)Utilities::Memory::FindTextPattern("client_panorama.dll", "VPhysicsSurfaceProps0");
+	char* PhysPropsInterfaces = (char*)Utilities::Memory::FindTextPattern("client.dll", "VPhysicsSurfaceProps0");
 	char* VEngineCvarName = (char*)Utilities::Memory::FindTextPattern("engine.dll", "VEngineCvar00");
+
+	Utilities::Log("CHLClientInterfaceName Base %x", CHLClientInterfaceName);
+	Utilities::Log("VGUI2PanelsInterfaceName Base %x", VGUI2PanelsInterfaceName);
+	Utilities::Log("VGUISurfaceInterfaceName Base %x", VGUISurfaceInterfaceName);
+	Utilities::Log("EntityListInterfaceName Base %x", EntityListInterfaceName);
+	Utilities::Log("EngineDebugThingInterface Base %x", EngineDebugThingInterface);
+	Utilities::Log("EngineClientInterfaceName Base %x", EngineClientInterfaceName);
+	Utilities::Log("ClientPredictionInterface Base %x", ClientPredictionInterface);
+	Utilities::Log("MatSystemInterfaceName Base %x", MatSystemInterfaceName);
+	Utilities::Log("EngineRenderViewInterface Base %x", EngineRenderViewInterface);
+	Utilities::Log("EngineModelRenderInterface Base %x", EngineModelRenderInterface);
+	Utilities::Log("EngineModelInfoInterface Base %x", EngineModelInfoInterface);
+	Utilities::Log("EngineTraceInterfaceName Base %x", EngineTraceInterfaceName);
+	Utilities::Log("PhysPropsInterfaces Base %x", PhysPropsInterfaces);
+	Utilities::Log("VEngineCvarName Base %x", VEngineCvarName);
+
+
 
 	// Use the factory function pointers along with the interface versions to grab
 	//  pointers to the interfaces
@@ -66,8 +83,11 @@ void Interfaces::Initialise()
 	PhysProps = (IPhysicsSurfaceProps*)PhysFactory(PhysPropsInterfaces, NULL);
 	CVar = (ICVar*)StdFactory(VEngineCvarName, NULL);
 	ClientMode = **(IClientModeShared***)((*(DWORD**)Interfaces::Client)[10] + 0x5);
+
+	Utilities::Log("Interface Create Complete");
+
 	// Get ClientMode Pointer
-	DWORD p = Utilities::Memory::FindPattern("client_panorama.dll", (BYTE*)"\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\xA8\x01\x75\x1A\x83\xC8\x01\xA3\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x68\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x83\xC4\x04\xA1\x00\x00\x00\x00\xB9\x00\x00\x00\x00\x56", "xx????????xxxxxxxx????x????x????x????xxxx????x????x");
+	DWORD p = Utilities::Memory::FindPattern("client.dll", (BYTE*)"\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\xA8\x01\x75\x1A\x83\xC8\x01\xA3\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x68\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x83\xC4\x04\xA1\x00\x00\x00\x00\xB9\x00\x00\x00\x00\x56", "xx????????xxxxxxxx????x????x????x????xxxx????x????x");
 	InputSystem = (IInputSystem*)InputSystemPointer("InputSystemVersion001", NULL);
 
 	// Search through the first entry of the Client VTable
@@ -76,7 +96,10 @@ void Interfaces::Initialise()
 	Globals = **(CGlobalVarsBase * **)((*(DWORD * *)Interfaces::Client)[0] + 0x1B); //psilent fix
 
 	PDWORD pdwClientVMT = *(PDWORD*)Client;
-	pInput = *(CInput * *)(Utilities::Memory::FindPatternV2("client_panorama.dll", "B9 ? ? ? ? F3 0F 11 04 24 FF 50 10") + 1);
+	pInput = *(CInput * *)(Utilities::Memory::FindPatternV2("client.dll", "B9 ? ? ? ? F3 0F 11 04 24 FF 50 10") + 1);
+
+	Utilities::Log("pInput Base %x", pInput);
+
 
 	Utilities::Log("Interfaces Ready");
 }
