@@ -93,8 +93,22 @@ void Interfaces::Initialise()
 	// Search through the first entry of the Client VTable
 	// The initializer contains a pointer to the 'GlobalsVariables' Table
 
-	Globals = **(CGlobalVarsBase * **)((*(DWORD * *)Interfaces::Client)[0] + 0x1B); //psilent fix
+	/*
+304F0C10          | 55                  | push ebp                                              |
+304F0C11          | 8BEC                | mov ebp,esp                                           |
+304F0C13          | 83E4 F8             | and esp,FFFFFFF8                                      |
+304F0C16          | 81EC 0C010000       | sub esp,10C                                           |
+304F0C1C          | 56                  | push esi                                              |
+304F0C1D          | 83EC 0C             | sub esp,C                                             |
+304F0C20          | E8 4B665C00         | call client.30AB7270                                  |
+304F0C25          | 8B45 0C             | mov eax,dword ptr ss:[ebp+C]                          |
+304F0C28          | 8D4D 08             | lea ecx,dword ptr ss:[ebp+8]                          |
+304F0C2B          | 83C4 0C             | add esp,C                                             |
+304F0C2E          | A3 D0B8FE30         | mov dword ptr ds:[30FEB8D0],eax           	gpGlobals = pGlobals;            |
+	*/
+	Globals = **(CGlobalVarsBase * **)((*(DWORD * *)Interfaces::Client)[0] + 0x1F); //psilent fix
 
+	//Client vtable
 	PDWORD pdwClientVMT = *(PDWORD*)Client;
 	pInput = *(CInput * *)(Utilities::Memory::FindPatternV2("client.dll", "B9 ? ? ? ? F3 0F 11 04 24 FF 50 10") + 1);
 

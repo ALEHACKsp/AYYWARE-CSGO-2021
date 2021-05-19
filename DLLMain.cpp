@@ -112,14 +112,14 @@ int InitialThread()
 	// 
 	Offsets::Initialise(); // Set our VMT offsets and do any pattern scans
 	Interfaces::Initialise(); // Get pointers to the valve classes
-	//NetVar.RetrieveClasses(); // Setup our NetVar manager (thanks shad0w bby)
-	//NetvarManager::Instance()->CreateDatabase();
+	NetVar.RetrieveClasses(); // Setup our NetVar manager (thanks shad0w bby)
+	NetvarManager::Instance()->CreateDatabase();
 	Render::Initialise();
-	//Hacks::SetupHacks();
+	Hacks::SetupHacks();
 	Menu::SetupMenu();
 	Utilities::Log("Menu::SetupMenu excute!");
-	//Hooks::Initialise();
-	//ApplyAAAHooks();
+	Hooks::Initialise();
+	ApplyAAAHooks();
 
 
 
