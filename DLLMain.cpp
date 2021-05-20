@@ -129,7 +129,9 @@ int InitialThread()
 	//Dump::DumpClassIds();
 
 	//---------------------------------------------------------
-	Utilities::Log("Ready");
+
+	Utilities::SetConsoleColor(FOREGROUND_GREEN);
+	Utilities::Log("[*]EveryThing have Ready,Have Fun");
 
 	// While our cheat is running
 	//click Unload Button And Callback will set DoUnload

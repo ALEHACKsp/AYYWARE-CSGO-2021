@@ -1,6 +1,58 @@
-
-
 // Credits to Valve and Shad0w
+
+
+//hellobaby
+/*
+
+what is NetworkVars?
+
+such as 
+
+mp/game/client/c_baseplayer.cpp/135 line
+// -------------------------------------------------------------------------------- //
+// RecvTable for CPlayerState.
+// -------------------------------------------------------------------------------- //
+
+	BEGIN_RECV_TABLE_NOBASE(CPlayerState, DT_PlayerState)
+		RecvPropInt		(RECVINFO(deadflag)),
+	END_RECV_TABLE()
+
+
+//how do these code do?
+
+namespace DT_PlayerState
+
+{
+RecvProp ret;
+ret.m_pVarName = "deadflag";
+ret.SetOffset( offset(deadflag,CPlayerState) );
+
+static RecvProp RecvProps[]{dummy,ret1,ret2,ret3,};
+
+
+}
+
+you see in IDA is do it
+.text:0000BCB1                 mov     dword_52E1EA4, offset aDeadflag ; "deadflag"
+.text:0000BCBB                 mov     dword_52E1ED0, 4
+.text:0000BCC5                 mov     dword_52E1EA8, 0
+.text:0000BCCF                 mov     dword_52E1EAC, 0
+.text:0000BCD9                 mov     dword_52E1EC4, offset sub_295320
+.text:0000BCE3
+.text:0000BCE3 loc_BCE3:                               ; CODE XREF: sub_BBD0+7¡üj
+.text:0000BCE3                 mov     dword_4D982DC, offset dword_52E1EA4
+.text:0000BCED                 mov     dword_4D982E0, 1
+.text:0000BCF7                 mov     dword_4D982E4, 0
+.text:0000BD01                 mov     dword_4D982E8, offset aDtPlayerstate ; "DT_PlayerState"
+.text:0000BD0B                 mov     word_4D982EC, 0
+
+
+So we can find these DT_xx table to find some offsets
+*/
+
+
+
+
 
 #include "NetVars.h"
 #include "ClientRecvProps.h"
@@ -28,7 +80,7 @@ const char* AlignText(int align)
 void CNetVar::RetrieveClasses()
 {
 #ifdef DUMP_NETVARS_TO_FILE
-	U::EnableLogFile(NETVAR_FILENAME);
+	Utilities::EnableLogFile(NETVAR_FILENAME);
 #endif
 
 	ClientClass *clientClass = Interfaces::Client->GetAllClasses();
@@ -58,9 +110,9 @@ void CNetVar::LogNetVar(RecvTable *table, int align)
 
 #ifdef DUMP_NETVARS_TO_FILE
 	if (align)
-		U::Log("%s===%s===", AlignText(20 + align), table->m_pNetTableName);
+		Utilities::Log("%s===%s===", AlignText(20 + align), table->m_pNetTableName);
 	else
-		U::Log(table->m_pNetTableName);
+		Utilities::Log(table->m_pNetTableName);
 #endif
 
 	for (auto i = 0; i < table->m_nProps; ++i)
@@ -77,7 +129,7 @@ void CNetVar::LogNetVar(RecvTable *table, int align)
 		DWORD_PTR dwCRC32 = CRC32((void*)szCRC32, strlen(szCRC32));
 
 #ifdef DUMP_NETVARS_TO_FILE
-		U::Log("%s%s [0x%X] [CRC32::0x%X]", AlignText(15 + align), prop->m_pVarName, prop->m_Offset, dwCRC32);
+		Utilities::Log("%s%s [0x%X] [CRC32::0x%X]", AlignText(15 + align), prop->m_pVarName, prop->m_Offset, dwCRC32);
 #endif
 
 		//Dont add duplicates
@@ -95,8 +147,8 @@ void CNetVar::LogNetVar(RecvTable *table, int align)
 
 			if (netvars->dwCRC32 == dwCRC32 && netvars->dwOffset != prop->m_Offset) //just a test if any crc collide with another (didnt happen obviously)
 			{
-				U::Log("^^^^ ERROR HASH %s%s::%s [0x%X] [CRC32::0x%X] ^^^^", AlignText(15 + align), table->m_pNetTableName, prop->m_pVarName, prop->m_Offset, dwCRC32);
-				U::Log("^^^^ CONFLICT %s%s::%s [0x%X] [CRC32::0x%X] ^^^^", AlignText(15 + align), netvars->szTableName, netvars->szPropName, netvars->dwOffset, netvars->dwCRC32);
+				Utilities::Log("^^^^ ERROR HASH %s%s::%s [0x%X] [CRC32::0x%X] ^^^^", AlignText(15 + align), table->m_pNetTableName, prop->m_pVarName, prop->m_Offset, dwCRC32);
+				Utilities::Log("^^^^ CONFLICT %s%s::%s [0x%X] [CRC32::0x%X] ^^^^", AlignText(15 + align), netvars->szTableName, netvars->szPropName, netvars->dwOffset, netvars->dwCRC32);
 			}
 #endif
 		}

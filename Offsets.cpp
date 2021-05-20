@@ -110,17 +110,18 @@ void Offsets::Initialise()
 
 	Functions::dwCalcPlayerView = Utilities::Memory::FindPattern("client.dll", (PBYTE)"\x84\xC0\x75\x08\x57\x8B\xCE\xE8\x00\x00\x00\x00\x8B\x06", "xxxxxxxx????xx");
 
-	Functions::dwGetPlayerCompRank = GameUtils::FindPattern1(strenc("client.dll"), strenc("55 8B EC 8B 0D ? ? ? ? 68 ? ? ? ? "));
+	//not work,other refer of dwGetPlayerCompRank must be annotated
+	//Functions::dwGetPlayerCompRank = GameUtils::FindPattern1(strenc("client.dll"), strenc("55 8B EC 8B 0D ? ? ? ? 68 ? ? ? ? "));
 
-
-	Functions::dwIsReady = GameUtils::FindPattern1(strenc("client.dll"), strenc("55 8B EC 83 E4 F8 83 EC 08 56 8B 35 ? ? ? ? 57 8B BE"));
+	//dwIsRead   seem no use?
+	//Functions::dwIsReady = GameUtils::FindPattern1(strenc("client.dll"), strenc("55 8B EC 83 E4 F8 83 EC 08 56 8B 35 ? ? ? ? 57 8B BE"));
 
 
 	Utilities::Log("Functions::KeyValues_KeyValues Base %x", Functions::KeyValues_KeyValues);
 	Utilities::Log("Functions::KeyValues_LoadFromBuffer %x", Functions::KeyValues_LoadFromBuffer);
 	Utilities::Log("Functions::dwCalcPlayerView %x", Functions::dwCalcPlayerView);
 	Utilities::Log("Functions::dwGetPlayerCompRank %x", Functions::dwGetPlayerCompRank);
-	Utilities::Log("Functions::dwIsReady %x", Functions::dwIsReady);
+	//Utilities::Log("Functions::dwIsReady %x", Functions::dwIsReady);
 
 	Utilities::Log("Offsets/Indexes Up to Date");
 }
@@ -212,7 +213,23 @@ namespace Offsets
 	{
 		DWORD KeyValues_KeyValues;
 		DWORD KeyValues_LoadFromBuffer;
+		/*
+	To get dwCalcPlayerView:
+	1. String search for smoothstairs in client.dll
+		58C1286F   68 6C18CF58      PUSH client.58CF186C                     ; ASCII "smoothstairs"
+		58C12874   B9 9889EB58      MOV ECX,client.58EB8998
+	2. Go to client.58EB8998
+	3. Find references
+	4. Go to reference with two below each other, this is C_BasePlayer::SmoothViewOnStairs(Vector &)
+		586F29C7   8B15 9889EB58    MOV EDX,DWORD PTR DS:[58EB8998] < here
+		586F29CD   8B42 34          MOV EAX,DWORD PTR DS:[EDX+34]
+		586F29D0   B9 9889EB58      MOV ECX,client.58EB8998 < and here
+	5. Find references to C_BasePlayer::SmoothViewOnStairs(Vector &)
+	6. only reference is CalcPlayerView
+	7. Sig starts after the call of InPrediction
+	*/
 		DWORD dwCalcPlayerView;
+
 		DWORD dwGetPlayerCompRank;
 		DWORD dwIsReady;
 	};
