@@ -121,23 +121,23 @@ void Interfaces::Initialise()
 // Namespace to contain all the valve interfaces
 namespace Interfaces
 {
-	IBaseClientDLL* Client;
-	IVEngineClient* Engine;
-	IPanel* Panels;
-	IClientEntityList* EntList;
-	ISurface* Surface;
-	IVDebugOverlay* DebugOverlay;
-	IClientModeShared* ClientMode;
-	CGlobalVarsBase *Globals;
-	DWORD *Prediction;
-	CMaterialSystem* MaterialSystem;
-	CVRenderView* RenderView;
-	IVModelRender* ModelRender;
-	CModelInfo* ModelInfo;
-	IEngineTrace* Trace;
-	IPhysicsSurfaceProps* PhysProps;
-	ICVar *CVar;
-	CInput* pInput;
-	IInputSystem* InputSystem;
+	IBaseClientDLL* Client = nullptr;
+	IVEngineClient* Engine = nullptr;
+	IPanel* Panels = nullptr;
+	IClientEntityList* EntList = nullptr;
+	ISurface* Surface = nullptr;
+	IVDebugOverlay* DebugOverlay = nullptr;
+	IClientModeShared* ClientMode = nullptr;
+	CGlobalVarsBase *Globals = nullptr;
+	DWORD *Prediction = nullptr;
+	CMaterialSystem* MaterialSystem = nullptr;
+	CVRenderView* RenderView = nullptr;
+	IVModelRender* ModelRender = nullptr;
+	CModelInfo* ModelInfo = nullptr;
+	IEngineTrace* Trace = nullptr;
+	IPhysicsSurfaceProps* PhysProps = nullptr;
+	ICVar *CVar = nullptr;
+	CInput* pInput = nullptr;
+	IInputSystem* InputSystem = nullptr;
 
 };

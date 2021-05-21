@@ -226,6 +226,12 @@ void ClanTag()
 
 bool __stdcall CreateMoveClient_Hooked(/*void* self, int edx,*/ float frametime, CUserCmd* pCmd)
 {
+	static bool log_once = 0;
+	if (!log_once)
+		Utilities::Log("%s", __FUNCTION__);
+	log_once = 1;
+
+
 	if (!pCmd->command_number)
 		return true;
 

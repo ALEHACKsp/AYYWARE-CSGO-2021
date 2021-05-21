@@ -8,6 +8,10 @@ Syn's AyyWare Framework
 #include "CommonIncludes.h"
 #include <time.h>
 
+
+
+
+
 // Colors for the console
 //Define extra colours
 #define FOREGROUND_WHITE		    (FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN)

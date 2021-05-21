@@ -791,20 +791,22 @@ bool CRageBot::AimAtPoint(IClientEntity* pLocal, Vector point, CUserCmd *pCmd, b
 namespace AntiAims // CanOpenFire checks for fake anti aims?
 {
 	// Pitches
-
 	void JitterPitch(CUserCmd *pCmd)
 	{
+	
 		static bool up = true;
 		if (up)
-		{
-			pCmd->viewangles.x = 45;
-			up = !up;
-		}
-		else
-		{
-			pCmd->viewangles.x = 89;
-			up = !up;
-		}
+			if (up)
+			{
+				pCmd->viewangles.x = 45;
+				up = !up;
+			}
+			else
+			{
+				pCmd->viewangles.x = 89;
+				up = !up;
+			}
+
 	}
 
 	void FakePitch(CUserCmd *pCmd, bool &bSendPacket)
@@ -843,6 +845,8 @@ namespace AntiAims // CanOpenFire checks for fake anti aims?
 
 	void FastSpin(CUserCmd *pCmd)
 	{
+		//Utilities::Log("%s",__FUNCTION__);
+
 		static int y2 = -179;
 		int spinBotSpeedFast = 100;
 
@@ -958,6 +962,9 @@ namespace AntiAims // CanOpenFire checks for fake anti aims?
 	
 	void BackJitter(CUserCmd *pCmd)
 	{
+
+		//pCmd->viewangles.y += 360.0f;
+
 		int random = rand() % 100;
 
 		// Small chance of starting fowards
@@ -970,6 +977,7 @@ namespace AntiAims // CanOpenFire checks for fake anti aims?
 		{
 			float change = -70 + (rand() % (int)(140 + 1));
 			pCmd->viewangles.y += change;
+			
 		}
 		if (random == 69)
 		{
@@ -1330,6 +1338,9 @@ void CRageBot::DoAntiAim(CUserCmd *pCmd, bool &bSendPacket) // pCmd->viewangles.
 
 	// Don't do antiaim
 	// if (DoExit) return;
+
+	//[Debug]can go there
+	//Utilities::Log("[INFO]Anti-aim in");
 
 	// Anti-Aim Pitch
 	switch (Menu::Window.RageBotTab.AntiAimPitch.GetIndex()) // Magic pitch is 69.69?

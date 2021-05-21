@@ -676,8 +676,8 @@ public:
 
 	CNETVAR_FUNC(float, GetLowerBodyYaw, 0xE6996CCF); //m_flLowerBodyYawTarget
 	CNETVAR_FUNC(int, GetFlags, 0xE456D580); //m_fFlags
-	CNETVAR_FUNC(float, GetTargetYaw, 0xE6996CCF)
-		CNETVAR_FUNC(Vector, GetOrigin, 0x1231CE10); //m_vecOrigin 0x0134
+	CNETVAR_FUNC(float, GetTargetYaw, 0xE6996CCF);
+	CNETVAR_FUNC(Vector, GetOrigin, 0x1231CE10); //m_vecOrigin 0x0134
 	CNETVAR_FUNC(Vector, GetRotation, 0x6BEA197A); //m_angRotation
 	CNETVAR_FUNC(int, GetTeamNum, 0xC08B6C6E); //m_iTeamNum
 	CNETVAR_FUNC(int, GetMaxHealth, 0xC52E1C28); //m_iMaxHealth

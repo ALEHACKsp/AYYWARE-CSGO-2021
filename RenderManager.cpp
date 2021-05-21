@@ -65,6 +65,7 @@ RECT Render::GetViewport()
 	RECT Viewport = { 0, 0, 0, 0 };
 	int w, h;
 	Interfaces::Engine->GetScreenSize(w, h);
+	//Utilities::Log("width %x height %x		%s",w,h,__FUNCTION__);
 	Viewport.right = w; Viewport.bottom = h;
 	return Viewport;
 }

@@ -17,5 +17,6 @@ public:
 private:
 	void DrawCrosshair();
 	void DrawRecoilCrosshair();
+	//[hellobaby info add] this function is deleted,so Visuals.Radar bar ineffect
 	void DrawCenterRadar();
 };

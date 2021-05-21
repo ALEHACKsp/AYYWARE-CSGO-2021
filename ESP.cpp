@@ -18,6 +18,13 @@ void CEsp::Move(CUserCmd *pCmd,bool &bSendPacket)
 // Main ESP Drawing loop
 void CEsp::Draw()
 {
+	//Utilities::Log("%s",__FUNCTION__);
+
+	static bool logonce = 0;
+
+	if(!logonce)
+	Utilities::Log("Main Esp Drawing loop");
+	
 	IClientEntity *pLocal = hackManager.pLocal();
 
 	if (Menu::Window.MiscTab.OtherSpectators.GetState())
@@ -82,6 +89,9 @@ void CEsp::Draw()
 		DWORD m_flFlashMaxAlpha = NetVar.GetNetVar(0xFE79FB98);
 		*(float*)((DWORD)pLocal + m_flFlashMaxAlpha) = 0;
 	}
+
+
+	logonce = 1;
 }
 
 void CEsp::SpecList()
@@ -132,6 +142,8 @@ void CEsp::SpecList()
 //  Yeah m8
 void CEsp::DrawPlayer(IClientEntity* pEntity, player_info_t pinfo)
 {
+
+
 	ESPBox Box;
 	Color Color;
 
@@ -364,6 +376,11 @@ void CEsp::DrawName(player_info_t pinfo, CEsp::ESPBox size)
 // Draw a health bar. For Tf2 when a bar is bigger than max health a second bar is displayed
 void CEsp::DrawHealth(IClientEntity* pEntity, CEsp::ESPBox size)
 {
+	static bool log_once = 0;
+	if (!log_once)
+		Utilities::Log("%s", __FUNCTION__);
+	log_once = 1;
+
 	ESPBox HealthBar = size;
 	HealthBar.y += (HealthBar.h + 6);
 	HealthBar.h = 4;
@@ -489,6 +506,11 @@ void CEsp::DrawDrop(IClientEntity* pEntity, ClientClass* cClass)
 // Draws a chicken
 void CEsp::DrawChicken(IClientEntity* pEntity, ClientClass* cClass)
 {
+	static bool log_once = 0;
+	if (!log_once)
+		Utilities::Log("%s", __FUNCTION__);
+	log_once = 1;
+
 	ESPBox Box;
 
 	if (GetBox(pEntity, Box))

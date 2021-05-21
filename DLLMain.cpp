@@ -117,9 +117,84 @@ int InitialThread()
 	Render::Initialise();
 	Hacks::SetupHacks();
 	Menu::SetupMenu();
-	Utilities::Log("Menu::SetupMenu excute!");
 	Hooks::Initialise();
 	ApplyAAAHooks();
+
+	//Test Call (Make Sure Something Correct)
+
+#define if_non_null(X) if(!X) {\
+		Utilities::Log("[ERROR]" #X "is nullptr");\
+		return 0;\
+	}
+
+#define printf_interfaces_addr(X)  Utilities::Log(#X" %x",X);
+
+	if_non_null(Interfaces::Engine);
+	if_non_null(Interfaces::Client);
+	if_non_null(Interfaces::Panels);
+	if_non_null(Interfaces::EntList);
+	if_non_null(Interfaces::Surface);
+	if_non_null(Interfaces::DebugOverlay);
+	if_non_null(Interfaces::ClientMode);
+	if_non_null(Interfaces::Globals);
+	if_non_null(Interfaces::Prediction);
+	if_non_null(Interfaces::MaterialSystem);
+	if_non_null(Interfaces::RenderView);
+	if_non_null(Interfaces::ModelRender);
+	if_non_null(Interfaces::ModelInfo);
+	if_non_null(Interfaces::Trace);
+	if_non_null(Interfaces::PhysProps);
+	if_non_null(Interfaces::CVar);
+	if_non_null(Interfaces::pInput);
+	if_non_null(Interfaces::InputSystem);
+
+	printf_interfaces_addr(Interfaces::Engine);
+	printf_interfaces_addr(Interfaces::Client);
+	printf_interfaces_addr(Interfaces::Panels);
+	printf_interfaces_addr(Interfaces::EntList);
+	printf_interfaces_addr(Interfaces::Surface);
+	printf_interfaces_addr(Interfaces::DebugOverlay);
+	printf_interfaces_addr(Interfaces::ClientMode);
+	printf_interfaces_addr(Interfaces::Globals);
+	printf_interfaces_addr(Interfaces::Prediction);
+	printf_interfaces_addr(Interfaces::MaterialSystem);
+	printf_interfaces_addr(Interfaces::RenderView);
+	printf_interfaces_addr(Interfaces::ModelRender);
+	printf_interfaces_addr(Interfaces::ModelInfo);
+	printf_interfaces_addr(Interfaces::Trace);
+	printf_interfaces_addr(Interfaces::PhysProps);
+	printf_interfaces_addr(Interfaces::CVar);
+	printf_interfaces_addr(Interfaces::pInput);
+	printf_interfaces_addr(Interfaces::InputSystem);
+
+
+	//// Get the entity index of the local player
+	auto LocalPlayer = Interfaces::Engine->GetLocalPlayer();
+
+
+	auto AllClasses = Interfaces::Client->GetAllClasses();
+
+
+	Utilities::Log(">>>Interfaces Debug Start");
+
+	Utilities::Log("LocalPlayer %x",Interfaces::EntList->GetClientEntity(LocalPlayer));
+	Utilities::Log("AllClasses %x",AllClasses);
+
+
+
+
+	Utilities::Log(">>>Interfaces Debug End");
+
+
+
+
+
+
+
+
+
+
+	//--------------------------------------------------------------------------
 
 
 

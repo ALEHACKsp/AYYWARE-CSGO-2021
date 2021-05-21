@@ -28,6 +28,8 @@ void CVisuals::Draw()
 }
 
 // Draw a basic crosshair
+//[hellobaby info add] this function work good
+
 void CVisuals::DrawCrosshair()
 {
 	// Crosshair
@@ -38,9 +40,12 @@ void CVisuals::DrawCrosshair()
 	Render::Line(MidX + 8, MidY - 8, MidX - 8, MidY + 8, Color(0, 0, 0, 200));
 	Render::Line(MidX - 4, MidY - 4, MidX + 4, MidY + 4, Color(0, 255, 0, 255));
 	Render::Line(MidX + 4, MidY - 4, MidX - 4, MidY + 4, Color(0, 255, 0, 255));
+
+	//Utilities::Log("%s",__FUNCTION__);
 }
 
 // Recoil crosshair
+//[hellobaby info add] this function work good
 void CVisuals::DrawRecoilCrosshair()
 {
 	if (Menu::Window.RageBotTab.AccuracyRecoil.GetState())

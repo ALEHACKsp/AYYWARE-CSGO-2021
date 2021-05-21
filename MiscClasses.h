@@ -16,18 +16,43 @@ class IClientModeShared
 {
 public:
 };
+//CClientEntityList
 class IClientEntityList
 {
 public:
 	virtual void Function0();
 	virtual void Function1();
 	virtual void Function2();
-	virtual IClientEntity* GetClientEntity(int entnum);
-	virtual IClientEntity* GetClientEntityFromHandle(HANDLE hEnt) = 0;
-	virtual int					NumberOfEntities(bool bIncludeNonNetworkable) = 0;
-	virtual int					GetHighestEntityIndex(void);
-	virtual void				SetMaxEntities(int maxents);
-	virtual int					GetMaxEntities();
+	virtual IClientEntity* GetClientEntity(int entnum){
+						using OriginalFn = IClientEntity*(*)(int);
+						call_vfunc<OriginalFn>(this,4);
+	
+	}
+	virtual IClientEntity* GetClientEntityFromHandle(HANDLE hEnt){
+		using OriginalFn = IClientEntity*(*)(HANDLE);
+		call_vfunc<OriginalFn>(this,1);
+		
+	}
+	virtual int					NumberOfEntities(bool bIncludeNonNetworkable)
+	{
+		using OriginalFn = int(*)(bool);
+		call_vfunc<OriginalFn>(this,5);
+		
+	}
+	virtual int					GetHighestEntityIndex(void){
+						using OriginalFn = int(*)(void);
+						call_vfunc<OriginalFn>(this,6);
+	}
+	virtual void				SetMaxEntities(int maxents){
+						using OriginalFn = void(*)(int);
+						call_vfunc<OriginalFn>(this, 7);
+		
+	}
+	virtual int					GetMaxEntities(){
+						using OriginalFn = int(*)(void);
+						call_vfunc<OriginalFn>(this,8);
+	
+	}
 };
 
 struct CViewSetup
