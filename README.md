@@ -5,6 +5,11 @@
 
 Useage:ReflectiveInject this Dll
 
+if you don't have injector,
+
+see https://github.com/helloobaby/AYYWARE-injector
+
+!!pls don't use your main account!!
 
 credits for: synraw - original ayyware developer.
 
