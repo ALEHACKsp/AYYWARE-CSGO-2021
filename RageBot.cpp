@@ -10,6 +10,7 @@
 #define TICK_INTERVAL			( Interfaces::Globals->interval_per_tick )
 #define TIME_TO_TICKS( dt )		( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
 
+
 void CRageBot::Init()
 {
 	IsAimStepping = false;
@@ -85,7 +86,7 @@ void CRageBot::Move(CUserCmd *pCmd, bool &bSendPacket)
 	if (Menu::Window.RageBotTab.AntiAimEnable.GetState())
 	{
 		static int ChokedPackets = -1;
-
+		/*
 		CBaseCombatWeapon* pWeapon = (CBaseCombatWeapon*)Interfaces::EntList->GetClientEntityFromHandle(hackManager.pLocal()->GetActiveWeaponHandle());
 		if (!pWeapon)
 			return;
@@ -95,13 +96,13 @@ void CRageBot::Move(CUserCmd *pCmd, bool &bSendPacket)
 			bSendPacket = false;
 		}
 		else
-		{
+		{*/
 			if (pLocalEntity->GetLifeState() == LIFE_ALIVE)
 			{
 				DoAntiAim(pCmd, bSendPacket);
 			}
 			ChokedPackets = -1;
-		}
+		//}
 	}
 
 	// Position Adjustment
@@ -1155,6 +1156,7 @@ namespace AntiAims // CanOpenFire checks for fake anti aims?
 		{
 			pCmd->viewangles.y -= 180;
 		}
+
 	}
 
 	void fakelowerbody(CUserCmd *pCmd, bool &bSendPacket)
@@ -1304,37 +1306,37 @@ void CRageBot::DoAntiAim(CUserCmd *pCmd, bool &bSendPacket) // pCmd->viewangles.
 {
 	IClientEntity* pLocal = hackManager.pLocal();
 
-	if ((pCmd->buttons & IN_USE) || pLocal->GetMoveType() == MOVETYPE_LADDER)
-		return;
-	
-	// If the aimbot is doing something don't do anything
-	if ((IsAimStepping || pCmd->buttons & IN_ATTACK) && !Menu::Window.RageBotTab.AimbotPerfectSilentAim.GetState())
-		return;
+	//if ((pCmd->buttons & IN_USE) || pLocal->GetMoveType() == MOVETYPE_LADDER)
+	//	return;
+	//
+	//// If the aimbot is doing something don't do anything
+	//if ((IsAimStepping || pCmd->buttons & IN_ATTACK) && !Menu::Window.RageBotTab.AimbotPerfectSilentAim.GetState())
+	//	return;
 
-	// Weapon shit
-	CBaseCombatWeapon* pWeapon = (CBaseCombatWeapon*)Interfaces::EntList->GetClientEntityFromHandle(hackManager.pLocal()->GetActiveWeaponHandle());
-	if (pWeapon)
-	{
-		CSWeaponInfo* pWeaponInfo = pWeapon->GetCSWpnData();
-		// Knives or grenades
-		if (!GameUtils::IsBallisticWeapon(pWeapon))
-		{
-			if (Menu::Window.RageBotTab.AntiAimKnife.GetState())
-			{
-				if (!CanOpenFire() || pCmd->buttons & IN_ATTACK2)
-					return;
-			}
-			else
-			{
-				return;
-			}
-		}
-	}
+	//// Weapon shit
+	//CBaseCombatWeapon* pWeapon = (CBaseCombatWeapon*)Interfaces::EntList->GetClientEntityFromHandle(hackManager.pLocal()->GetActiveWeaponHandle());
+	//if (pWeapon)
+	//{
+	//	CSWeaponInfo* pWeaponInfo = pWeapon->GetCSWpnData();
+	//	// Knives or grenades
+	//	if (!GameUtils::IsBallisticWeapon(pWeapon))
+	//	{
+	//		if (Menu::Window.RageBotTab.AntiAimKnife.GetState())
+	//		{
+	//			if (!CanOpenFire() || pCmd->buttons & IN_ATTACK2)
+	//				return;
+	//		}
+	//		else
+	//		{
+	//			return;
+	//		}
+	//	}
+	//}
 
-	if (Menu::Window.RageBotTab.AntiAimTarget.GetState())
-	{
-		AntiAims::AimAtTarget(pCmd);
-	}
+	//if (Menu::Window.RageBotTab.AntiAimTarget.GetState())
+	//{
+	//	AntiAims::AimAtTarget(pCmd);
+	//}
 
 	// Don't do antiaim
 	// if (DoExit) return;
@@ -1352,6 +1354,12 @@ void CRageBot::DoAntiAim(CUserCmd *pCmd, bool &bSendPacket) // pCmd->viewangles.
 		// Down
 		//AntiAims::StaticPitch(pCmd, false);
 		pCmd->viewangles.x = 89.0f;
+		if (fabsf(pCmd->sidemove) < 5.0f) {
+			if (pCmd->buttons & 4)
+				pCmd->sidemove = pCmd->tick_count & 1 ? 3.25f : -3.25f;
+			else
+				pCmd->sidemove = pCmd->tick_count & 1 ? 1.1f : -1.1f;
+		}
 		break;
 	case 2:
 		// Half Down
